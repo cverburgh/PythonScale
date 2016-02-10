@@ -25,10 +25,16 @@
     <Compile Include="Blink.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ErrorMessages.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="LEDs.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PythonScale.py" />
+    <Compile Include="Setup.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
