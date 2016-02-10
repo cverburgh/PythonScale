@@ -36,6 +36,14 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DocsANdNotes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DocsANdNotes\Data Flow and LEDs.xlsx" />
+    <Content Include="DocsANdNotes\Drawing1.vsdx" />
+    <Content Include="DocsANdNotes\Scale Hardware Requirements.docx" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
