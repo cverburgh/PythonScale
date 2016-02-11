@@ -1,19 +1,20 @@
+#import RPi.GPIO as GPIO
 import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
 
 # set default blink speed, in ms
-defaultFastBlink = 100 
-defaultSlowBlink = 500 
+defaultFastBlink = 0.1 
+defaultSlowBlink = 0.5 
 
 class Led():
     """ an led(s) """
     fastBlinkDelay = defaultFastBlink
     slowBlinkDelay = defaultSlowBlink
 
-    def __init__(self, pinNumber, initialpinValue = GPIO.LOW):
+    def __init__(self, pinNumber, pinIsHigh = False):
+        GPIO.setup(pinNumber, GPIO.OUT)
         self.pin = pinNumber
-        self.pinValue = initialpinValue
-
-        GPIO.setup(self.pin, GPIO.OUTPUT)
+        self.pinValue = pinIsHigh       
 
     @property
     def pin(self):
@@ -34,10 +35,10 @@ class Led():
     @pinValue.setter
     def pinValue(self, pinValue):
         self.__pinValue = pinValue
-        GPIO.output(self.__pin, self.__pinValue)
-
-    def turnOn(self): self.pinValue = GPIO.HIGH
-    def turnOff(self): self.pinValue = GPIO.LOW
+        GPIO.output(self.pin, self.pinValue)
+        
+    def turnOn(self): self.pinValue = True
+    def turnOff(self): self.pinValue = False
 
     def isOn(self): return GPIO.input(self.pin) == GPIO.HIGH
 
@@ -47,12 +48,12 @@ class Pin():
     def __init__(self, pinNumber, gpioMode, initialpinValue = GPIO.LOW):
         self.pin = pinNumber
         self.mode = gpioMode
-        self.pinValue = initialpinValue
+        if (gpioMode == GPIO.OUT): self.pinValue = initialpinValue
 
         #GPIO.setup(self.pin, self.mode)
-        #if (self.mode == GPIO.OUTPUT): 
+        #if (self.mode == GPIO.OUT): 
         #    self.pinValue = initialpinValue
-        #    GPIO.output(self.pin, self.pinValue)
+        #    GPIO.OUT(self.pin, self.pinValue)
 
     @property
     def pin(self): return self.__pin
@@ -79,4 +80,4 @@ class Pin():
     @pinValue.setter
     def pinValue(self, pinValue):
         self.__pinValue = pinValue
-        GPIO.OUTPUT(self.pin, self.pinValue)
+        GPIO.output(self.pin, self.pinValue)
