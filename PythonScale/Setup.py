@@ -2,8 +2,6 @@
 import LEDs as leds
 import RPi.GPIO as GPIO
 import time
-import ptvsd
-ptvsd.enable_attach('piscale')
 
 fastBlinkDelay = 0.1
 slowBlinkDelay = 0.5

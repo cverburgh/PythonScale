@@ -1,6 +1,9 @@
 ﻿import time
 import RPi.GPIO as GPIO
 import Setup as myio
+import ptvsd
+ptvsd.enable_attach('piscale')
+
 GPIO.setmode(GPIO.BOARD)
 
 myio.noLed.turnOn()
