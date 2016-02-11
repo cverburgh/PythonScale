@@ -1,4 +1,4 @@
-import time
+﻿import time
 import RPi.GPIO as GPIO
 import Setup as myio
 GPIO.setmode(GPIO.BOARD)
@@ -14,8 +14,6 @@ for i in range (0, 10):
 myio.noLed.turnOff()
 
 myio.fastBlink(myio.statusLed, myio.keepFlashing)
-
-
 
 myio.noLed.turnOn()
 
