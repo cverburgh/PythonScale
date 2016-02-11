@@ -1,4 +1,4 @@
-#import RPi.GPIO as GPIO
+﻿#import RPi.GPIO as GPIO
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
 
@@ -44,7 +44,6 @@ class Led():
 
 class Pin():
     """ any old pin """
-
     def __init__(self, pinNumber, gpioMode, initialpinValue = GPIO.LOW):
         self.pin = pinNumber
         self.mode = gpioMode
@@ -75,6 +74,7 @@ class Pin():
 
     @property
     def pinValue(self):
+        self.__pinValue = GPIO.input(self.__pin)
         return self.__pinValue;
 
     @pinValue.setter
