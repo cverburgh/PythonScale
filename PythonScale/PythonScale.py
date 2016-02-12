@@ -1,33 +1,108 @@
-﻿import time
+﻿
+import time
 import RPi.GPIO as GPIO
 import Setup as myio
 import ScaleSerial as mySerial
-import ptvsd
 import random
 import ApiAccess as webApi
 import json
 from io import StringIO
-import Adafruit_CharLCD as LCD
+from PartWeightResult import PartWeightResult as pwr
+from Adafruit_CharLCD import Adafruit_CharLCD as afLcd
 
-#import LCd
-
+import ptvsd
+# for VS debugging
 ptvsd.enable_attach('piscale')
 
-GPIO.setmode(GPIO.BOARD)
-
-#myio.noLed.turnOn()
 myio.statusLed.turnOn()
 
-counter=0;
+lcd = afLcd()
+lcd.begin(20,4)
+lcd.clear()
+lcdText = ["", "", "", ""]
+def clearLcdText():
+    lcdText = ["", "", "", ""]
+
+    lcd.messages(lcdText)
+
+def setLcdText(line0 = "", line1 = "", line2 = "", line3 = ""):
+    lcdText[0] = line0
+    lcdText[1] = line1
+    lcdText[2] = line2
+    lcdText[3] = line3
+
+    lcd.messages(lcdText)
+
+def addLcdTextToTop(text, update = False):
+    # add to top, lose the bottom
+    lcdText[3] = lcdText[2]
+    lcdText[2] = lcdText[1]
+    lcdText[1] = lcdText[0]
+    lcdText[0] = text
+
+    lcd.messages(lcdText)
+    if (update): lcd.messages(lcdText)
+
+def addLcdTextToBottom(text, update = False):
+    # add to bottom, lose the first line
+    lcdText[0] = lcdText[1]
+    lcdText[1] = lcdText[2]
+    lcdText[2] = lcdText[3]
+    lcdText[3] = text
+
+    if (update): lcd.messages(lcdText)
+
+setLcdText("starting up and", "wating for data...")
 
 while (myio.btnAck.pinValue == GPIO.LOW): #exit by pressing the ack button
-    time.sleep(0.25)    
+    time.sleep(0.1)
     myio.goLed.turnOff();
     myio.noGoLed.turnOff();
-
     rndm = random.random()
-    data = mySerial.ser.readline()
     
+    # .getData returns the PartWeightResult object
+    pw = mySerial.getData()
+
+    # no data from scale, keep on truckin' 
+    if (pw.hasData == False): continue
+    
+    addLcdTextToBottom("Received data:")
+
+    # Data from scale
+    # data is good
+    if (pw.success):
+        myio.goLed.turnOn();
+        clearLcdText()
+        addLcdTextToBottom("WO: " + pw.workOrderNumber)
+        addLcdTextToBottom("Weight: " + pw.weight)
+
+        # send data to webApi and get the result
+        addLcdTextToBottom("Submitting data...")
+        apiResult = webApi.SubmitWeight(pw.workOrderNumber, pw.weight)
+
+        if (apiResult.status != 200):
+            addLcdTextToBottom("Invalid Request!!", True)
+            addLcdTextToBottom("Error: " + str(apiResult.status), True)
+
+        else:
+            addLcdTextToBottom("weight submitted!")
+            apiData = apiResult.data
+            addLcdTextToBottom("Status: " + str(apiResult.status))
+            
+            #jsonData = json.loads(result.data)
+            jsonData = json.load(StringIO(apiData))
+            sc = jsonData['model']['comtekStockCode']
+            addLcdTextToBottom(sc, True)
+            
+    else:
+        # failed to properly read data
+        if(pw.hasData): 
+            myio.noGoLed.turnOn();
+            addLcdTextToBottom("ERROR:")
+            addLcdTextToBottom(pw.msg)
+
+    continue
+
     if (myio.btnSimData.pinValue == GPIO.HIGH): 
         data = "00198454 0.164KG"
         print(rndm)
@@ -48,23 +123,14 @@ while (myio.btnAck.pinValue == GPIO.LOW): #exit by pressing the ack button
             print("good data")
             print("submitting weight...")
 
-            result = webApi.SubmitWeight(workOrderNumber, weight)
-
-            if (result.status != 200):
-                print("Bad data returned!!")
-            else:
-                data = result.data
-
-                #jsonData = json.loads(result.data)
-                jsonData = json.load(StringIO(data))
-                print(jsonData['ip'])
 
     else:
         print("looking for data...")
 
-    counter += 1
 
-
+# end of while loop
+lcd.clear()
+lcd.message("exiting PiScale")
 GPIO.cleanup()
 
 #while (true):

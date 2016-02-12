@@ -22,6 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Adafruit_CharLCD.py" />
     <Compile Include="ApiAccess.py">
       <SubType>Code</SubType>
     </Compile>
@@ -31,10 +32,10 @@
     <Compile Include="ErrorMessages.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LCd.py">
+    <Compile Include="LEDs.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LEDs.py">
+    <Compile Include="PartWeightResult.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PythonScale.py" />

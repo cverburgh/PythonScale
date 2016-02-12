@@ -7,24 +7,24 @@ fastBlinkDelay = 0.1
 slowBlinkDelay = 0.5
 
 # setup LEDs
-statusLed = leds.Led(29, True)              # status LED
-goLed = leds.Led(31, False)                 # Go
-noGoLed = leds.Led(32, False)               # NoGo
+statusLed = leds.Led(5, True)              # status LED    w/29
+goLed = leds.Led(6, False)                 # Go            w/31
+noGoLed = leds.Led(12, False)              # NoGo          w/32
 
 # Setup GPIO
 # GPIO - LCD
-lcdRegSelect = leds.Pin(35, GPIO.OUT, False)
-lcdClockEnable = leds.Pin(37, GPIO.OUT, False)
-lcdData4 = leds.Pin(33, GPIO.OUT, False)
-lcdData5 = leds.Pin(36, GPIO.OUT, False)
-lcdData6 = leds.Pin(38, GPIO.OUT, False)
-lcdData7 = leds.Pin(40, GPIO.OUT, False)
+#lcdRegSelect = leds.Pin(19, GPIO.OUT, False)    # w/35
+#lcdClockEnable = leds.Pin(26, GPIO.OUT, False)  # w/37
+#lcdData4 = leds.Pin(13, GPIO.OUT, False)        # w/33
+#lcdData5 = leds.Pin(16, GPIO.OUT, False)        # w/36
+#lcdData6 = leds.Pin(20, GPIO.OUT, False)        # w/38
+#lcdData7 = leds.Pin(21, GPIO.OUT, False)        # w/40
 
 # GPIO - buttons
-btnAck = leds.Pin(11, GPIO.IN, False)
-#btnShutdown = SetupPin(12, GPIO.OUT, False)
+btnAck = leds.Pin(17, GPIO.IN, False)           # w/11
+#btnShutdown = SetupPin(18, GPIO.OUT, False)    # w/12
 # This button simulates data coming in from the serial port
-btnSimData = leds.Pin(13, GPIO.IN, False)
+btnSimData = leds.Pin(27, GPIO.IN, False)       # w/13
 
 keepFlashing = True;
 

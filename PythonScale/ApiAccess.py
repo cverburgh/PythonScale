@@ -2,8 +2,12 @@
 
 def SubmitWeight(workOrderNumber, weight):
     """submit weight to web api"""
-    h=httplib2.Http('.cache')
-    response, content = h.request('http://craigverburgh.com/asdfadsf')
+    h = httplib2.Http('.cache')
+
+    url = 'http://incomtek3/api/partWeights/records/scale/' + workOrderNumber + "/" + weight
+    
+    print(url)
+    response, content = h.request(url, "POST", headers={'content-length':'0'} )
     
     responseStatus = response.status
     data = content.decode("utf-8")  # convert byte to string
