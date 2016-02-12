@@ -7,9 +7,9 @@ import random
 import ApiAccess as webApi
 import json
 from io import StringIO
-import LCd
+import Adafruit_CharLCD as LCD
 
-LCd.main
+#import LCd
 
 ptvsd.enable_attach('piscale')
 
