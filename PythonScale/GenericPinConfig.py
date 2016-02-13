@@ -27,7 +27,6 @@ class Pin():
         self.__mode = mode
         GPIO.setup(self.pin, self.mode)
 
-
     @property
     def pinValue(self):
         self.__pinValue = GPIO.input(self.__pin)

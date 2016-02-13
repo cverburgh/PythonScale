@@ -72,23 +72,24 @@ def cycleLeds2(ledArray, delay = 100):
         ledArray[1].turnOff
     turnOffLeds(ledArray)
 
-def blinkAll(delay = 500):
-    for x in range(5):
+def blinkAll(blinks = 5, delay = 500):
+    for x in range(blinks):
         turnOnLeds(allLeds)
         delayMs(delay)
         turnOffLeds(allLeds)
         delayMs(delay)
 
+def turnOffAll():
+    turnOffLeds(allLeds)
+
 def turnOffLeds(ledArray):
     for i in range(len(ledArray)):
         ledArray[i].turnOff()
-
-
+        
 def turnOnLeds(ledArray):
     for i in range(len(ledArray)):
         ledArray[i].turnOn()
-
-
+        
 def delayMs(ms):
     seconds = ms / float(1000)  # divide ms by 1 thousand for seconds
     sleep(seconds)

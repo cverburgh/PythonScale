@@ -20,9 +20,9 @@ ptvsd.enable_attach('piscale')
 
 leds.statusLed.turnOn()
 
-leds.cycleLeds(leds.allLeds)
-leds.cycleLeds2(leds.allLeds)
-leds.blinkAll()
+#leds.cycleLeds(leds.allLeds)
+#leds.cycleLeds2(leds.allLeds)
+leds.blinkAll(3)
 
 leds.statusLed.turnOn();
 
@@ -61,12 +61,11 @@ def addLcdTextToBottom(text, update = False):
 setLcdText("starting up and", "wating for data...")
 
 
-while (btns.btnAck.pinValue == GPIO.LOW): #exit by pressing the ack button
+#while (btns.btnAck.pinValue == GPIO.LOW): #exit by pressing the ack button
+while (True): #exit by pressing the ack button
     time.sleep(0.1)
-    leds.goLed.turnOff();
-    leds.noGoLed1.turnOff();
-    leds.noGoLed2.turnOff();
-    leds.noGoLed3.turnOff();
+    leds.turnOffAll()
+    leds.statusLed.turnOn()
     rndm = random.random()
     
     # .getData returns the PartWeightResult object

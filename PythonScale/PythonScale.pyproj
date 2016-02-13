@@ -26,6 +26,9 @@
     <Compile Include="ApiAccess.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Button.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ButtonConfig.py">
       <SubType>Code</SubType>
     </Compile>
