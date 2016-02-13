@@ -1,7 +1,11 @@
 ﻿
 import time
+
 import RPi.GPIO as GPIO
-import Setup as myio
+GPIO.setmode(GPIO.BCM)
+
+import LedConfig as leds
+import ButtonConfig as btns
 import ScaleSerial as mySerial
 import random
 import ApiAccess as webApi
@@ -14,17 +18,22 @@ import ptvsd
 # for VS debugging
 ptvsd.enable_attach('piscale')
 
-myio.statusLed.turnOn()
+leds.statusLed.turnOn()
+
+leds.cycleLeds(leds.allLeds)
+leds.cycleLeds2(leds.allLeds)
+leds.blinkAll()
+
+leds.statusLed.turnOn();
 
 lcd = afLcd()
 lcd.begin(20,4)
 lcd.clear()
 lcdText = ["", "", "", ""]
+
 def clearLcdText():
     lcdText = ["", "", "", ""]
-
     lcd.messages(lcdText)
-
 def setLcdText(line0 = "", line1 = "", line2 = "", line3 = ""):
     lcdText[0] = line0
     lcdText[1] = line1
@@ -32,7 +41,6 @@ def setLcdText(line0 = "", line1 = "", line2 = "", line3 = ""):
     lcdText[3] = line3
 
     lcd.messages(lcdText)
-
 def addLcdTextToTop(text, update = False):
     # add to top, lose the bottom
     lcdText[3] = lcdText[2]
@@ -42,7 +50,6 @@ def addLcdTextToTop(text, update = False):
 
     lcd.messages(lcdText)
     if (update): lcd.messages(lcdText)
-
 def addLcdTextToBottom(text, update = False):
     # add to bottom, lose the first line
     lcdText[0] = lcdText[1]
@@ -51,13 +58,15 @@ def addLcdTextToBottom(text, update = False):
     lcdText[3] = text
 
     if (update): lcd.messages(lcdText)
-
 setLcdText("starting up and", "wating for data...")
 
-while (myio.btnAck.pinValue == GPIO.LOW): #exit by pressing the ack button
+
+while (btns.btnAck.pinValue == GPIO.LOW): #exit by pressing the ack button
     time.sleep(0.1)
-    myio.goLed.turnOff();
-    myio.noGoLed.turnOff();
+    leds.goLed.turnOff();
+    leds.noGoLed1.turnOff();
+    leds.noGoLed2.turnOff();
+    leds.noGoLed3.turnOff();
     rndm = random.random()
     
     # .getData returns the PartWeightResult object
@@ -122,10 +131,7 @@ while (myio.btnAck.pinValue == GPIO.LOW): #exit by pressing the ack button
             myio.goLed.turnOn();
             print("good data")
             print("submitting weight...")
-
-
-    else:
-        print("looking for data...")
+    else: print("looking for data...")
 
 
 # end of while loop

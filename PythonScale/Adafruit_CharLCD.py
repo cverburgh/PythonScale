@@ -1,4 +1,4 @@
-#!/usr/bin/python
+﻿#!/usr/bin/python
 
 #
 # based on code from lrvick and LiquidCrystal
@@ -54,7 +54,7 @@ class Adafruit_CharLCD(object):
     LCD_5x10DOTS            = 0x04
     LCD_5x8DOTS             = 0x00
 
-    def __init__(self, pin_rs=25, pin_e=24, pins_db=[23, 20, 21, 22], GPIO=None):
+    def __init__(self, pin_rs=22, pin_e=23, pins_db=[24, 25, 26, 27], GPIO=None):
         # Emulate the old behavior of using RPi.GPIO if we haven't been given
         # an explicit GPIO interface to use
         if not GPIO:

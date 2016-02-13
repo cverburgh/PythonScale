@@ -1,4 +1,4 @@
-import time
+﻿import time
 import serial
 from PartWeightResult import PartWeightResult as pwr
 import unicodedata
