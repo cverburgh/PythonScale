@@ -32,6 +32,12 @@
     <Compile Include="ButtonConfig.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GeneralSetup.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LcdStuff.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="LED.py">
       <SubType>Code</SubType>
     </Compile>

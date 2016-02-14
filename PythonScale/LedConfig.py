@@ -2,7 +2,7 @@
 from time import sleep
 # setup IO pins
 #import RPi.GPIO as GPIO
-#import time
+import time
 
 fastBlinkDelay = 0.1
 slowBlinkDelay = 0.5
@@ -18,8 +18,15 @@ noGoLeds = [noGoLed1, noGoLed2, noGoLed3]
 allLeds = [statusLed, goLed, noGoLed1, noGoLed2, noGoLed3]
 
 
-def fastBlink(led, condition):
-    while (condition == True):
+def fastBlink(led, numOfBlinks):
+    for x in range(numOfBlinks):
+        led.turnOn()
+        time.sleep(fastBlinkDelay)
+        led.turnOff()
+        time.sleep(fastBlinkDelay)
+
+def slowBlink(led, numOfBlinks):
+    for x in range(numOfBlinks):
         led.turnOn()
         time.sleep(slowBlinkDelay)
         led.turnOff()
