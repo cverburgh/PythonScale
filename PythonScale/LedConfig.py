@@ -1,7 +1,7 @@
 ﻿import LED as led
 from time import sleep
 # setup IO pins
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 
 fastBlinkDelay = 0.1
@@ -32,6 +32,15 @@ def slowBlink(led, numOfBlinks):
         led.turnOff()
         time.sleep(slowBlinkDelay)
 
+def blinkNoGoLeds():
+    import ButtonConfig as btns
+    while (btns.btnAck.state == GPIO.LOW):
+        for l in range(0, len(noGoLeds)): 
+            noGoLeds[l].turnOn()
+        time.sleep(fastBlinkDelay)
+        
+        for l in range(0, len(noGoLeds)): noGoLeds[l].turnOff()
+        time.sleep(fastBlinkDelay)
 
 def cycleLeds(ledArray, delay = 100):
     turnOffLeds(ledArray)

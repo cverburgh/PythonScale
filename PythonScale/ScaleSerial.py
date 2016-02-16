@@ -63,27 +63,22 @@ def getData(testingMode):
 
     except Exception as e:
         error = e.args[0]
-        line1 = error[:21]
-        line2 = error[21:41]
-        line4 = error[41:]
-        lcd.setText("ERROR:", line1, line2, line3)
+        lcd.setText(error)
 
 
 def getTestData():
     import random
     rndm = random.random()
-    data = "00198454         0.164KG"
+    data = "00198454       0.164LG"
 
     if (rndm > 0.5):
         # pretend it's bad data
-        leds.noGoLed.turnOn();
-        lcd.setText("***** WARNING *****", "bad data!!", "***** WARNING *****")
+        pass
 
     else:
         # pretend it's good data
         workOrderNumber = "00198454"
         weight = "2.345"
-        leds.goLed.turnOn();
         displayWoAndWeight(workOrderNumber, weight)
 
     return data

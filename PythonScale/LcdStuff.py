@@ -10,7 +10,15 @@ def clearText():
     lcdText = ["", "", "", ""]
     lcd.clear()
 
-def setText(line0 = "", line1 = "", line2 = "", line3 = ""):
+def setText(line = "", line1 = "", line2 = "", line3 = ""):
+    if (line1 == "" and line2 == "" and line3 == ""):
+        line0 = line[:20]
+        line1 = line[20:40]
+        line2 = line[40:60]
+        line3 = line[60:80]
+    else:
+        line0 = line
+
     lcdText[0] = line0
     lcdText[1] = line1
     lcdText[2] = line2
