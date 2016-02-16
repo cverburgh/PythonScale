@@ -17,11 +17,16 @@ from io import StringIO
 from PartWeightResult import PartWeightResult as pwr
 import GeneralSetup
 
-readyText = "PiScale started,    waiting for data"
-testingMode = True
+readyText = "System ready..."
+testingMode = False
+pressAckMsg = GeneralSetup.pressAckMsg
+
+def alert(msg1, msg2 = "", msg3 = ""):
+    lcd.setText(msg1, msg2, msg3, pressAckMsg)
+    leds.blinkNoGoLeds()
+    lcd.setText(readyText)
 
 try:
-    #while (btns.btnExit.pinValue == GPIO.LOW): #exit by pressing the ack button
     while (True):   #exit by pressing the Exit button
         # .getData returns the PartWeightResult object
         pw = mySerial.getData(testingMode)
@@ -50,23 +55,29 @@ try:
                 lcd.setText(readyText)
                 continue
 
-
             if (apiResult.status != 200):
-                lcd.addTextToBottom("Invalid Request!!", True)
-                lcd.addTextToBottom("Error: " + str(apiResult.status), True)
+                alert("Invalid Request!!", "Error: " + str(apiResult.status))
+                continue
 
-            else:
-                apiData = apiResult.data
-                lcd.addTextToBottom("Status: " + str(apiResult.status))
+            apiData = apiResult.data
+            lcd.addTextToBottom("Status: " + str(apiResult.status))
             
-                if (testingMode):
-                    sc = "SOME STOCKCODE"
-                else:
-                    #jsonData = json.loads(apiData)
-                    jsonData = json.load(StringIO(apiData))
-                    sc = jsonData['model']['comtekStockCode']
+            if (testingMode):
+                sc = "SOME STOCKCODE"
+            else:
+                #jsonData = json.loads(apiData)
+                jsonData = json.load(StringIO(apiData))
+                if (jsonData['success'] != True):
+                    alert("There was an error", "saving the part", "to the database")
+                    continue
 
-                lcd.setText("Weight submitted", "for stock code", sc)
+
+                if (jsonData['model']['weightLimitExceeded']):
+                    alert("Exceeds weight limit", "Part must be sent", "to quarantine")
+                    continue
+
+                sc = jsonData['model']['comtekStockCode']
+                lcd.setText("Weight submitted for", "stock code:", "", sc)
                 leds.goLed.turnOn()
                 time.sleep(10)
                 leds.goLed.turnOff()
@@ -80,13 +91,9 @@ try:
         lcd.setText(readyText)
         leds.statusLed.turnOn()
         time.sleep(0.1)
-        
-        continue
-
-    GeneralSetup.exitPiScale()
 
 except KeyboardInterrupt:  
-    GeneralSetup.exitPiScale()
+    GeneralSetup.exitPiScale("")
 
 except Exception as e:
     lcd.setText(e.args[0])
@@ -94,3 +101,4 @@ except Exception as e:
 
 finally:
     pass
+

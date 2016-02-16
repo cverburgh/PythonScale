@@ -36,13 +36,17 @@ def getData(testingMode):
             if (length == 22):
                 pw.success = True
                 #work order number is the first 8 chars
-                pw.workOrderNumber = remove_control_characters(result[:9].strip())
+                result = remove_control_characters(result)
+                pw.workOrderNumber = result[:9].strip()
                 print(pw.workOrderNumber)
                 # weight is the last 11 (or so) chars
                 pw.weight = result[-11:].strip()
 
                 uom = pw.weight[-2:]    # get the UoM, it must bt LG
-                if (uom != "LG"):
+                uom2 = pw.weight[-3:]    # get the UoM, it must bt LG
+                if (uom == "LG" or uom2 == "LGM"):
+                    pass
+                else:
                     pw.success = False
                     pw.msg = "Invalid U of M"
                     return pw

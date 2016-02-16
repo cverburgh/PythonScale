@@ -12,7 +12,6 @@ def SubmitWeight(workOrderNumber, weight, testingMode):
 
         url = 'http://incomtek3/api/partWeights/records/scale/' + workOrderNumber + "/" + weight
         
-        print(url)
         response, content = h.request(url, "POST", headers={'content-length':'0'} )
     
         responseStatus = response.status
