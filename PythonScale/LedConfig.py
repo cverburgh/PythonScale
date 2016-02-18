@@ -8,11 +8,11 @@ fastBlinkDelay = 0.1
 slowBlinkDelay = 0.5
         
 # setup LEDs
-statusLed = led.Led(16, True)      # status LED    w/29
-goLed     = led.Led(17, False)     # Go
-noGoLed1  = led.Led(18, False)     # NoGo 1
+statusLed = led.Led(29, True)      # status LED    w/29
+goLed     = led.Led(31, False)     # Go
+noGoLed1  = led.Led(13, False)     # NoGo 1
 noGoLed2  = led.Led(19, False)     # NoGo 2
-noGoLed3  = led.Led(20, False)     # NoGo 3
+noGoLed3  = led.Led(26, False)     # NoGo 3
 
 noGoLeds = [noGoLed1, noGoLed2, noGoLed3]
 allLeds = [statusLed, goLed, noGoLed1, noGoLed2, noGoLed3]
