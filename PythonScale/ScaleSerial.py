@@ -23,23 +23,31 @@ def getData(testingMode):
            result = data
         else:
            data = ser.readline()
-           result = data.decode(encoding='UTF-8')
-        
+           
+           try:
+               result = data.decode(encoding='UTF-8')
+           except:
+               result = ""       
+ 
         # result should be a string something like 00199387   0.186KG
         # length should be exactly 18
         length = len(result)
-    
+
+
         pw = pwr(False, "", "", False, "no data")
+        
+        if (length == 0): return pw
+
         if (length > 0):
             pw.hasData = True
 
             if (length == 22):
                 pw.success = True
-                #work order number is the first 8 chars
+                    #work order number is the first 8 chars
                 result = remove_control_characters(result)
                 pw.workOrderNumber = result[:9].strip()
                 print(pw.workOrderNumber)
-                # weight is the last 11 (or so) chars
+                    # weight is the last 11 (or so) chars
                 pw.weight = result[-11:].strip()
 
                 uom = pw.weight[-2:]    # get the UoM, it must bt LG
@@ -67,7 +75,8 @@ def getData(testingMode):
 
     except Exception as e:
         error = e.args[0]
-        lcd.setText(error)
+        error2 = e.args[1]
+        lcd.setText(error, error2)
 
 
 def getTestData():

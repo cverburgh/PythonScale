@@ -10,7 +10,7 @@ def SubmitWeight(workOrderNumber, weight, testingMode):
     try:
         h = httplib2.Http('.cache')
 
-        url = 'http://incomtek3/api/partWeights/records/scale/' + workOrderNumber + "/" + weight
+        url = 'http://incomtek3-test/api/partWeights/records/scale/' + workOrderNumber + "/" + weight
         
         response, content = h.request(url, "POST", headers={'content-length':'0'} )
     

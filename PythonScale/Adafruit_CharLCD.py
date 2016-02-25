@@ -8,6 +8,7 @@
 
 from time import sleep
 
+testing = True
 
 class Adafruit_CharLCD(object):
 
@@ -198,6 +199,10 @@ class Adafruit_CharLCD(object):
 
     def message(self, text, clearFirst = False):
         """ Send string to LCD. Newline wraps to second line"""
+
+        if (testing):
+            print(text)
+
         if (clearFirst == True): 
             self.write4bits(self.LCD_CLEARDISPLAY)  # command to clear display
             self.delayMicroseconds(3000)  # 3000 microsecond sleep, clearing the display takes a long time
@@ -219,6 +224,10 @@ class Adafruit_CharLCD(object):
             row = count-1
             thisLine = textArray[row]
             thisLine = str(thisLine)[:21]    # only use the first 20 chars, and make sure it's a string!
+
+            if (testing): 
+                print(thisLine)
+
             self.row_offsets = [0x00, 0x40, 0x14, 0x54]
 
             if row > self.numlines:

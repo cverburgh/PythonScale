@@ -27,7 +27,8 @@ def alert(msg1, msg2 = "", msg3 = ""):
     lcd.setText(readyText)
 
 try:
-    while (True):   #exit by pressing the Exit button
+    while (True):   
+        #exit by pressing the Exit button
         # .getData returns the PartWeightResult object
         pw = mySerial.getData(testingMode)
 
@@ -43,10 +44,10 @@ try:
             lcd.clearText()
             lcd.addTextToBottom("WO: " + pw.workOrderNumber)
             lcd.addTextToBottom("Weight: " + pw.weight)
-
+            
             # send data to webApi and get the result
             lcd.addTextToBottom("Submitting data...", True)
-
+            
             apiResult = webApi.SubmitWeight(pw.workOrderNumber, pw.weight, testingMode)
 
             # some error occured, but it was (probably already handled, 
@@ -54,7 +55,8 @@ try:
             if (apiResult == None): 
                 lcd.setText(readyText)
                 continue
-
+  
+            #apiResult.status=404 
             if (apiResult.status != 200):
                 alert("Invalid Request!!", "Error: " + str(apiResult.status))
                 continue
@@ -77,10 +79,11 @@ try:
                     continue
 
                 sc = jsonData['model']['comtekStockCode']
-                lcd.setText("Weight submitted for", "stock code:", "", sc)
-                leds.goLed.turnOn()
-                time.sleep(10)
-                leds.goLed.turnOff()
+            
+            lcd.setText("Weight submitted for", "stock code:", "", sc)
+            leds.goLed.turnOn()
+            time.sleep(10)
+            leds.goLed.turnOff()
 
         else:
             # failed to properly read data

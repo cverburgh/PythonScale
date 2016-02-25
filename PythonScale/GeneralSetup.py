@@ -19,41 +19,44 @@ def exitPiScale(args):
         x = x + 0.1
         if (x < 5):
             if (a== False):
-                lcd.setText("release button to", "reboot", "continue to hold for", "more options")
+                lcd.setText("release button to", "resume part weight", "continue to hold for", "more options")
                 a = True
         if (x >= 5 and x < 10): 
             if (b == False):
                 a = False
-                lcd.setText("release button to", "shutdown", "continue to hold for", "more options")
+                lcd.setText("release button to", "restart", "continue to hold for", "more options")
                 b = True
-            #halt()
 
-        if (x >= 10):
+        if (x >= 10 and x < 15):
             if (c == False):
                 b = False
-                lcd.setText("release button to", "resume part weight", "continue to hold for", "more options")
+                lcd.setText("release button to", "shutdown", "continue to hold for", "more options")
                 c = True
-        
+        if (x >= 15):
+            lcd.setText("system ready", "  ",  "You can release", "the button now!")
+            a = True
+            b = False
+            c = False           
+
     if (a): 
-        lcd.setText("rebooting")
-        GPIO.cleanup()
-        reboot()
+        lcd.setText("system ready")
     else:
         if (b): 
-            lcd.setText("shutting down")
+            lcd.setText("rebooting")
             GPIO.cleanup()
+            reboot()
+        if (c): 
+            lcd.setText("shutting down...")
             halt()
-        else: 
-            lcd.setText("System ready...")
 
 
 def reboot():
     import os
-    os.system("sudo reboot")
+    os.system("sudo reboot now")
 
 def halt():
     import os
-    os.system("sudo halt")
+    os.system("sudo halt now")
 
 
 # setup the button to exit
