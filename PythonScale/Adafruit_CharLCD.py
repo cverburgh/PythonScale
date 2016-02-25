@@ -170,16 +170,28 @@ class Adafruit_CharLCD(object):
     def write4bits(self, bits, char_mode=False):
         """ Send command to LCD """
         self.delayMicroseconds(1000)  # 1000 microsecond sleep
+        # convert bits to binary?
         bits = bin(bits)[2:].zfill(8)
+        
+        # Set RS pin High/True for send data
+        # or False/Low for sending a command
+        # char_mode means 'send text'
         self.GPIO.output(self.pin_rs, char_mode)
+        
+        # Set all the data pins low/false
         for pin in self.pins_db:
             self.GPIO.output(pin, False)
+        
+        # go through the first 4 bits
         for i in range(4):
+            # all pins are already low, so set them high as needed
             if bits[i] == "1":
                 self.GPIO.output(self.pins_db[::-1][i], True)
         self.pulseEnable()
+        
         for pin in self.pins_db:
             self.GPIO.output(pin, False)
+            
         for i in range(4, 8):
             if bits[i] == "1":
                 self.GPIO.output(self.pins_db[::-1][i-4], True)
