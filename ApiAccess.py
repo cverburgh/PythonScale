@@ -12,7 +12,7 @@ def SubmitWeight(workOrderNumber, weight, testingMode):
         h = httplib2.Http('.cache')
 
         url = 'http://incomtek3/api/partWeights/records/scale/' + workOrderNumber + "/" + weight
-        
+                
         response, content = h.request(url, "POST", headers={'content-length':'0'} )
     
         responseStatus = response.status
@@ -23,7 +23,8 @@ def SubmitWeight(workOrderNumber, weight, testingMode):
 
     except Exception as e:
         import LcdStuff as lcd
-        lcd.setText(e.args[0])
+        # lcd.setText(e.args[0])
+        lcd.setText("There was an error sending the weight")
         import LedConfig as leds
         leds.blinkNoGoLeds()
     finally:

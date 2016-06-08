@@ -72,6 +72,7 @@ try:
                 jsonData = json.load(StringIO(apiData))
                 if (jsonData['success'] != True):
                     alert("There was an error", "saving the part", "to the database")
+                    print(jsonData['success'])
                     continue
 
 
