@@ -40,12 +40,17 @@ def getData(testingMode):
 
         if (length > 0):
             pw.hasData = True
+            
 
-            if (length == 22):
+            if (length == 22 or length == 29):
                 pw.success = True
                 #work order number is the first 8 chars
                 result = remove_control_characters(result)
-                pw.workOrderNumber = result[:9].strip()
+                if (length == 22):
+                    pw.workOrderNumber = result[:9].strip()
+                else:
+                    pw.workOrderNumber = result[:16].strip()
+
                 print(pw.workOrderNumber)
                 # weight is the last 11 (or so) chars
                 pw.weight = result[-11:].strip()
@@ -54,7 +59,7 @@ def getData(testingMode):
                 uom = pw.weight[-2:]    # get the UoM, it must bt LG
                 uom2 = pw.weight[-3:]    # get the UoM, it must bt LG
                 # for some reason, the scale in now returning "LN" as the lbs uom - Jun 06 2016
-                if (uom == "LG" or uom2 == "LGM" or uom == "LN" or uom == "LNM"):
+                if (uom == "LG" or uom2 == "LGM" or uom == "LN" or uom2 == "LNM"):
                     print("good UoM")
                     print(uom)
                     pass
