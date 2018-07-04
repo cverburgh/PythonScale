@@ -23,3 +23,4 @@
 
 > [!VIDEO https://channel9.msdn.com/Events/Ignite/Microsoft-Ignite-New-Zealand-2015/M321/player]
 
+[Link to another page](test2.md)
